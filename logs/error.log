@@ -1,0 +1,2 @@
+ERROR	2020/07/14 12:37:47 main.go:41: listen tcp :4000: bind: address already in use
+exit status 1
