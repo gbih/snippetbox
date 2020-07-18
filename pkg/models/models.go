@@ -11,6 +11,9 @@ type Snippet struct {
 	ID      int
 	Title   string
 	Content string
+	MV1     string
+	MV2     string
+	MV3     string
 	Created time.Time
 	Expires time.Time
 }

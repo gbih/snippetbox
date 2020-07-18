@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"path/filepath"
 	"time"
 
+	"github.com/gbih/snippetbox/pkg/forms"
 	"github.com/gbih/snippetbox/pkg/models"
 )
 
@@ -13,11 +13,19 @@ type templateData struct {
 	CurrentYear int
 	Snippet     *models.Snippet
 	Snippets    []*models.Snippet
+	Form        *forms.Form
+	// FormData    url.Values        // access url.Values type
+	// FormErrors  map[string]string // redisplay data upon errors
 }
 
 func humanDate(t time.Time) string {
 	return t.Format("02 Jan 2006 at 15:04")
 }
+
+// FuncMap is the type of the map defining the mapping from names to functions.
+// There are 18 built-in template functions. To define a custom function:
+// 1. Create a template.FuncMap object containing the custom humanDate() function.
+// 2. Use the template.Funcs() method to register this before parsing the templates.
 
 var functions = template.FuncMap{
 	"humanDate": humanDate,
@@ -58,6 +66,5 @@ func newTemplateCache(dir string) (map[string]*template.Template, error) {
 		cache[name] = ts
 	}
 
-	fmt.Println("******* cache:", cache)
 	return cache, nil
 }

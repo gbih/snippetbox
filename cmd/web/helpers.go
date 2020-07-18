@@ -8,10 +8,11 @@ import (
 	"time"
 )
 
+// GB: Good example of mutating a field of an instance of a struct.
 // Create an addDefaultData helper. This takes a pointer to a templateData
 // struct, adds the current year to the CurrentYear field, and then returns
-// the pointer. Again, we're not using the *http.Request parameter at the
-// moment, but we will do later in the book.
+// the pointer. We're not using the *http.Request parameter at the moment,
+// but we will do later in the book.
 func (app *application) addDefaultData(td *templateData, r *http.Request) *templateData {
 	if td == nil {
 		td = &templateData{}
@@ -41,7 +42,10 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 		return
 	}
 
-	// Need to make the template render a two-stage process. First, we should make a ‘trial’ render by writing the template into a buffer. If this fails, we can respond to the user with an error message. But if it works, we can then write the contents of the buffer to our http.ResponseWriter.
+	// Need to make the template render a two-stage process. First, we should
+	// make a ‘trial’ render by writing the template into a buffer. If this
+	// fails, we can respond to the user with an error message. But if it works,
+	// we can then write the contents of the buffer to our http.ResponseWriter.
 
 	// Initialize a new buffer.
 	buf := new(bytes.Buffer)

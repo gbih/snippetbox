@@ -1,0 +1,2137 @@
+%PDF-1.3
+%‚„œ”
+2 0 obj
+<<
+/Length 2354
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(13:19:40)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(1)Tj
+/TT6 1 Tf
+14 0 0 14 237.4326 786.5 Tm
+0 g
+(cmd/web/handlers.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(package main)Tj
+0 -2.2 TD
+(import \()Tj
+0 -1.1 TD
+(    "bytes")Tj
+T*
+(    "encoding/json")Tj
+T*
+(    "errors")Tj
+T*
+(    "fmt")Tj
+T*
+(    "html/template")Tj
+T*
+(    "net/http")Tj
+T*
+(    "path/filepath")Tj
+T*
+(    "strconv")Tj
+0 -2.2 TD
+(    "github.com/gbih/snippetbox/pkg/models")Tj
+0 -1.1 TD
+(\))Tj
+0 -2.2 TD
+(func \(nfs neuteredFileSystem\) Open\(path string\) \(http.File, error\) {)Tj
+0 -1.1 TD
+(    f, err := nfs.fs.Open\(path\))Tj
+T*
+(    if err != nil {)Tj
+T*
+(        return nil, err)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    s, err := f.Stat\(\))Tj
+0 -1.1 TD
+(    if s.IsDir\(\) {)Tj
+T*
+(        index := filepath.Join\(path, "index.html"\))Tj
+T*
+(        if _, err := nfs.fs.Open\(index\); err != nil {)Tj
+T*
+(            closeErr := f.Close\(\))Tj
+T*
+(            if closeErr != nil {)Tj
+T*
+(                return nil, closeErr)Tj
+T*
+(            })Tj
+0 -2.2 TD
+(            return nil, err)Tj
+0 -1.1 TD
+(        })Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    return f, nil)Tj
+0 -1.1 TD
+(})Tj
+0 -2.2 TD
+(//----------)Tj
+T*
+(// API Usage: curl -i localhost:4000/api/v1/test)Tj
+T*
+(func \(app *application\) apiTest\(w http.ResponseWriter, r *http.Request\) {)Tj
+0 -1.1 TD
+(    data := []struct {)Tj
+T*
+(        Name     string ëjson:"name"ë)Tj
+T*
+(        Location string ëjson:"location"ë)Tj
+T*
+(    }{)Tj
+T*
+(        {"George", "Ê\\227•Ê\\234¨"},)Tj
+T*
+(        {"Izumi", "Ë∂\\212Âæ\\214ÊπØÊ≤¢"},)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    js, err := json.MarshalIndent\(data, "", "\\t"\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        http.Error\(w, err.Error\(\), http.StatusInternalServerError\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+T*
+(    w.Header\(\).Set\("Content-Type", "application/json; charset=utf-8"\))Tj
+T*
+(    w.Write\(js\))Tj
+T*
+(})Tj
+0 -2.2 TD
+(//----------)Tj
+T*
+(// Example to show explicit code flow)Tj
+T*
+(func \(app *application\) homeOriginal\(w http.ResponseWriter, r *http.Request\) {)Tj
+T*
+(    s, err := app.snippets.Latest\(\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        app.serverError\(w, err\))Tj
+ET
+endstream
+endobj
+3 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+11 0 obj
+<<
+/Length 2996
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(13:19:40)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(2)Tj
+/TT6 1 Tf
+14 0 0 14 237.4326 786.5 Tm
+0 g
+(cmd/web/handlers.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(        return)Tj
+0 -1.1 TD
+(    })Tj
+0 -2.2 TD
+(    files := []string{)Tj
+0 -1.1 TD
+(        "./ui/html/home.pageOriginal.html",)Tj
+T*
+(        "./ui/html/base.layout.html",)Tj
+T*
+(        "./ui/html/footer.partial.html",)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    // Create a FuncMap with which to register the function.)Tj
+0 -1.1 TD
+(    funcMap := template.FuncMap{)Tj
+T*
+(        // "humanDate" is the function name created in templates.go,)Tj
+T*
+(        //  to be called in the template text.)Tj
+T*
+(        "humanDate": humanDate,)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    // Create a template, add the function map, and parse the text.)Tj
+0 -1.1 TD
+(    ts, err := template.New\("base"\).Funcs\(funcMap\).ParseFiles\(files...\))Tj
+T*
+(    if err != nil {)Tj
+T*
+(        app.serverError\(w, err\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    // As soon as we begin adding dynamic behavior to our HTML templates)Tj
+0 -1.1 TD
+(    // there‚\\200\\231s a risk of encountering runtime errors. We want to avoid)Tj
+T*
+(    // the use-case of the template compiling ok, but throwing a run-time error.)Tj
+T*
+(    // Essentially, To fix this we need to make the template render a two-stage)Tj
+T*
+(    // process. First, we should make a trial-render by writing the template)Tj
+T*
+(    // into a buffer. If this fails, we can respond to the user with an error)Tj
+T*
+(    // message. But if it works, we can then write the contents of the buffer)Tj
+T*
+(    // to our http.ResponseWriter.)Tj
+0 -2.2 TD
+(    // Initialize a new buffer.)Tj
+0 -1.1 TD
+(    buf := new\(bytes.Buffer\))Tj
+0 -2.2 TD
+(    // Write the template to the buffer, instead of straight to the)Tj
+0 -1.1 TD
+(    // http.ResponseWriter. If thereís an error, call our serverError helper)Tj
+T*
+(    // and then return.)Tj
+T*
+(    err = ts.Execute\(buf, &templateData{)Tj
+T*
+(        Snippets: s,)Tj
+T*
+(    }\))Tj
+T*
+(    if err != nil {)Tj
+T*
+(        app.serverError\(w, err\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    // Write the contents of the buffer to the http.ResponseWriter. Again, this)Tj
+0 -1.1 TD
+(    // is another time where we pass our http.ResponseWriter to a function that)Tj
+T*
+(    // takes an io.Writer.)Tj
+T*
+(    buf.WriteTo\(w\))Tj
+0 -2.2 TD
+(    // OLD:)Tj
+0 -1.1 TD
+(    // err = ts.Execute\(w, &templateData{)Tj
+T*
+(    //  Snippets: s,)Tj
+T*
+(    // }\))Tj
+T*
+(    // if err != nil {)Tj
+T*
+(    //  app.serverError\(w, err\))Tj
+T*
+(    // })Tj
+0 -2.2 TD
+(})Tj
+T*
+(//----------)Tj
+T*
+(func \(app *application\) home\(w http.ResponseWriter, r *http.Request\) {)Tj
+0 -1.1 TD
+(    if r.URL.Path != "/" {)Tj
+T*
+(        app.notFound\(w\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+ET
+endstream
+endobj
+12 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+14 0 obj
+<<
+/Length 2894
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(13:19:40)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(3)Tj
+/TT6 1 Tf
+14 0 0 14 237.4326 786.5 Tm
+0 g
+(cmd/web/handlers.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 758 Tm
+(    s, err := app.snippets.Latest\(\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        app.serverError\(w, err\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    // New code)Tj
+0 -1.1 TD
+(    app.render\(w, r, "home.page.html", &templateData{)Tj
+T*
+(        Snippets: s,)Tj
+T*
+(    }\))Tj
+0 -2.2 TD
+(    /*)Tj
+0 -1.1 TD
+(        Note:)Tj
+T*
+(        1.  Old template parsing and execution code refactored out, moved to)Tj
+T*
+(        templates.go in this function:)Tj
+T*
+(        newTemplateCache\(dir string\) \(map[string]*template.Template, error\))Tj
+0 -2.2 TD
+(        2. This cache is initialized in the main\(\) function and made)Tj
+0 -1.1 TD
+(        available to handlers as a dependency via the application struct.)Tj
+0 -2.2 TD
+(            type application struct {)Tj
+0 -1.1 TD
+(                templateCache map[string]*template.Template)Tj
+T*
+(            })Tj
+0 -2.2 TD
+(        and added as to the application dependencies)Tj
+0 -1.1 TD
+(            app := &application{)Tj
+T*
+(                templateCache: templateCache,)Tj
+T*
+(            })Tj
+0 -2.2 TD
+(        So now we have an in-memory cache of the relevant template set for)Tj
+0 -1.1 TD
+(        each of our pages, and our handlers have access to this cache via)Tj
+T*
+(        the application struct.)Tj
+0 -2.2 TD
+(        Now, create a helper render method so that we can easily render)Tj
+0 -1.1 TD
+(        the templates from the cache.)Tj
+T*
+(        File: cmd/web/helpers.go)Tj
+0 -2.2 TD
+(        func \(app *application\) render\()Tj
+0 -1.1 TD
+(                w http.ResponseWriter,)Tj
+T*
+(                r *http.Request,)Tj
+T*
+(                name string,)Tj
+T*
+(                td *templateData\) { ... })Tj
+0 -2.2 TD
+(        Now, we can access these cached templates via the render helper function:)Tj
+0 -1.1 TD
+(        Use the new render helper.)Tj
+T*
+(        app.render\(w, r, "home.page.tmpl", &templateData{)Tj
+T*
+(            Snippets: s,)Tj
+T*
+(        }\))Tj
+T*
+(    */)Tj
+T*
+(    /*)Tj
+T*
+(        Old code:)Tj
+T*
+(        data := &templateData{Snippets: s})Tj
+0 -2.2 TD
+(        files := []string{)Tj
+0 -1.1 TD
+(            "./ui/html/home.page.html",)Tj
+T*
+(            "./ui/html/base.layout.html",)Tj
+T*
+(            "./ui/html/footer.partial.html",)Tj
+T*
+(        })Tj
+0 -2.2 TD
+(        ts, err := template.ParseFiles\(files...\))Tj
+0 -1.1 TD
+(        if err != nil {)Tj
+T*
+(            app.serverError\(w, err\))Tj
+T*
+(            return)Tj
+T*
+(        })Tj
+0 -2.2 TD
+(        err = ts.Execute\(w, data\))Tj
+0 -1.1 TD
+(        if err != nil {)Tj
+ET
+endstream
+endobj
+15 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+17 0 obj
+<<
+/Length 2480
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(13:19:40)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(4)Tj
+/TT6 1 Tf
+14 0 0 14 237.4326 786.5 Tm
+0 g
+(cmd/web/handlers.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(            app.serverError\(w, err\))Tj
+0 -1.1 TD
+(        })Tj
+T*
+(    */)Tj
+T*
+(})Tj
+0 -2.2 TD
+(// API Usage : curl -i localhost:4000/api/v1/home)Tj
+T*
+(func \(app *application\) apiHome\(w http.ResponseWriter, r *http.Request\) {)Tj
+T*
+(    s, err := app.snippets.Latest\(\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        app.serverError\(w, err\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    js, err := json.MarshalIndent\(s, "", "\\t"\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        http.Error\(w, err.Error\(\), http.StatusInternalServerError\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    w.Header\(\).Set\("Content-Type", "application-json; charset=UTF-8"\))Tj
+0 -1.1 TD
+(    w.Write\(js\))Tj
+T*
+(})Tj
+0 -2.2 TD
+(//----------)Tj
+T*
+(func \(app *application\) showSnippet\(w http.ResponseWriter, r *http.Request\) {)Tj
+0 -1.1 TD
+(    id, err := strconv.Atoi\(r.URL.Query\(\).Get\("id"\)\))Tj
+T*
+(    if err != nil || id < 1 {)Tj
+T*
+(        app.notFound\(w\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    s, err := app.snippets.Get\(id\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        if errors.Is\(err, models.ErrNoRecord\) {)Tj
+T*
+(            app.notFound\(w\))Tj
+T*
+(        } else {)Tj
+T*
+(            app.serverError\(w, err\))Tj
+T*
+(        })Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    // Manual template parsing and execution code refactored out)Tj
+T*
+(    app.render\(w, r, "show.page.html", &templateData{)Tj
+0 -1.1 TD
+(        Snippet: s,)Tj
+T*
+(    }\))Tj
+0 -2.2 TD
+(})Tj
+T*
+(// API Usage: curl -i íhttp://localhost:4000/api/v1/snippet?id=1í)Tj
+T*
+(func \(app *application\) apiShowSnippet\(w http.ResponseWriter, r *http.Request\) {)Tj
+0 -1.1 TD
+(    id, err := strconv.Atoi\(r.URL.Query\(\).Get\("id"\)\))Tj
+T*
+(    if err != nil || id < 1 {)Tj
+T*
+(        app.notFound\(w\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    s, err := app.snippets.Get\(id\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        if errors.Is\(err, models.ErrNoRecord\) {)Tj
+T*
+(            app.notFound\(w\))Tj
+T*
+(        } else {)Tj
+T*
+(            app.serverError\(w, err\))Tj
+T*
+(        })Tj
+ET
+endstream
+endobj
+18 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+20 0 obj
+<<
+/Length 1500
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(13:19:40)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(5)Tj
+/TT6 1 Tf
+14 0 0 14 237.4326 786.5 Tm
+0 g
+(cmd/web/handlers.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(        return)Tj
+0 -1.1 TD
+(    })Tj
+T*
+(    js, err := json.MarshalIndent\(s, "", "\\t"\))Tj
+T*
+(    if err != nil {)Tj
+T*
+(        http.Error\(w, err.Error\(\), http.StatusInternalServerError\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+T*
+(    //fmt.Fprintf\(w, "%v", s\))Tj
+T*
+(    w.Header\(\).Set\("Content-Type", "application-json; charset=utf-8"\))Tj
+T*
+(    w.Write\(js\))Tj
+T*
+(})Tj
+0 -2.2 TD
+(//----------)Tj
+T*
+(func \(app *application\) createSnippet\(w http.ResponseWriter, r *http.Request\) {)Tj
+0 -1.1 TD
+(    if r.Method != http.MethodPost {)Tj
+T*
+(        w.Header\(\).Set\("Allow", http.MethodPost\))Tj
+T*
+(        http.Error\(w, "Method Not Allowed", 405\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    title := "O snail")Tj
+0 -1.1 TD
+(    content := "O snail\\nBut slowly, slowly!\\n\\n‚\\200\\223 Kobayashi Issa")Tj
+T*
+(    expires := "7")Tj
+0 -2.2 TD
+(    id, err := app.snippets.Insert\(title, content, expires\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        app.serverError\(w, err\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    http.Redirect\(w, r, fmt.Sprintf\("/snippet?id=%d", id\), http.StatusSeeOther\))Tj
+T*
+(})Tj
+ET
+endstream
+endobj
+21 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+23 0 obj
+<<
+/Length 3227
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/15/20)Tj
+-0.0552 -1.0667 TD
+(23:26:33)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(1)Tj
+/TT6 1 Tf
+14 0 0 14 240.9326 786.5 Tm
+0 g
+(cmd/web/helpers.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(package main)Tj
+0 -2.2 TD
+(import \()Tj
+0 -1.1 TD
+(    "bytes")Tj
+T*
+(    "fmt")Tj
+T*
+(    "net/http")Tj
+T*
+(    "runtime/debug")Tj
+T*
+(    "time")Tj
+T*
+(\))Tj
+0 -2.2 TD
+(// Create an addDefaultData helper. This takes a pointer to a templateData)Tj
+0 -1.1 TD
+(// struct, adds the current year to the CurrentYear field, and then returns)Tj
+T*
+(// the pointer. Again, weíre not using the *http.Request parameter at the)Tj
+T*
+(// moment, but we will do later in the book.)Tj
+T*
+(func \(app *application\) addDefaultData\(td *templateData, r *http.Request\) *templateData {)Tj
+T*
+(    if td == nil {)Tj
+T*
+(        td = &templateData{})Tj
+T*
+(    })Tj
+T*
+(    td.CurrentYear = time.Now\(\).Year\(\))Tj
+T*
+(    return td)Tj
+T*
+(})Tj
+0 -2.2 TD
+(func \(app *application\) serverError\(w http.ResponseWriter, err error\) {)Tj
+0 -1.1 TD
+(    trace := fmt.Sprintf\("%s\\n%s", err.Error\(\), debug.Stack\(\)\))Tj
+T*
+(    app.errorLog.Println\(trace\))Tj
+T*
+(    http.Error\(w, http.StatusText\(http.StatusInternalServerError\), )Tj
+T*
+(http.StatusInternalServerError\))Tj
+T*
+(})Tj
+0 -2.2 TD
+(func \(app *application\) clientError\(w http.ResponseWriter, status int\) {)Tj
+0 -1.1 TD
+(    http.Error\(w, http.StatusText\(status\), status\))Tj
+T*
+(})Tj
+0 -2.2 TD
+(func \(app *application\) notFound\(w http.ResponseWriter\) {)Tj
+0 -1.1 TD
+(    app.clientError\(w, http.StatusNotFound\))Tj
+T*
+(})Tj
+0 -2.2 TD
+(func \(app *application\) render\(w http.ResponseWriter, r *http.Request, name string, td )Tj
+0 -1.1 TD
+(*templateData\) {)Tj
+T*
+(    ts, ok := app.templateCache[name])Tj
+T*
+(    if !ok {)Tj
+T*
+(        app.serverError\(w, fmt.Errorf\("The template %s does not exist", name\)\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    // Need to make the template render a two-stage process. First, we should make a )Tj
+0 -1.1 TD
+(‚\\200\\230trial‚\\200\\231 render by writing the template into a buffer. If this fails, we )Tj
+T*
+(can respond to the user with an error message. But if it works, we can then write the )Tj
+T*
+(contents of the buffer to our http.ResponseWriter.)Tj
+0 -2.2 TD
+(    // Initialize a new buffer.)Tj
+0 -1.1 TD
+(    buf := new\(bytes.Buffer\))Tj
+0 -2.2 TD
+(    // Write the template to the buffer, instead of straight to the)Tj
+0 -1.1 TD
+(    // http.ResponseWriter. If thereís an error, call our serverError helper and then)Tj
+T*
+(    // return.)Tj
+T*
+(    //)Tj
+T*
+(    // Execute the template set, passing the dynamic data with the current)Tj
+T*
+(    // year injected.)Tj
+T*
+(    //err := ts.Execute\(buf, td\))Tj
+T*
+(    err := ts.Execute\(buf, app.addDefaultData\(td, r\)\))Tj
+T*
+(    if err != nil {)Tj
+T*
+(        app.serverError\(w, err\))Tj
+T*
+(        return)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    // Write the contents of the buffer to the http.ResponseWriter. Again, this)Tj
+0 -1.1 TD
+(    // is another time where we pass our http.ResponseWriter to a function that)Tj
+ET
+endstream
+endobj
+24 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+26 0 obj
+<<
+/Length 420
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/15/20)Tj
+-0.0552 -1.0667 TD
+(23:26:33)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(2)Tj
+/TT6 1 Tf
+14 0 0 14 240.9326 786.5 Tm
+0 g
+(cmd/web/helpers.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(    // takes an io.Writer.)Tj
+0 -1.1 TD
+(    buf.WriteTo\(w\))Tj
+0 -2.2 TD
+(})Tj
+ET
+endstream
+endobj
+27 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+29 0 obj
+<<
+/Length 2267
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(11:48:23)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(1)Tj
+/TT6 1 Tf
+14 0 0 14 247.1499 786.5 Tm
+0 g
+(cmd/web/main.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(package main)Tj
+0 -2.2 TD
+(import \()Tj
+0 -1.1 TD
+(    "database/sql")Tj
+T*
+(    "flag")Tj
+T*
+(    "fmt")Tj
+T*
+(    "html/template")Tj
+T*
+(    "log")Tj
+T*
+(    "net/http")Tj
+T*
+(    "os")Tj
+0 -2.2 TD
+(    "github.com/gbih/snippetbox/pkg/models/postgres")Tj
+0 -1.1 TD
+(    _ "github.com/lib/pq")Tj
+T*
+(\))Tj
+0 -2.2 TD
+(type neuteredFileSystem struct {)Tj
+0 -1.1 TD
+(    fs http.FileSystem)Tj
+T*
+(})Tj
+0 -2.2 TD
+(type Config struct {)Tj
+0 -1.1 TD
+(    Addr      string)Tj
+T*
+(    StaticDir string)Tj
+T*
+(})Tj
+0 -2.2 TD
+(type application struct {)Tj
+0 -1.1 TD
+(    errorLog      *log.Logger)Tj
+T*
+(    infoLog       *log.Logger)Tj
+T*
+(    snippets      *postgres.SnippetModel)Tj
+T*
+(    templateCache map[string]*template.Template)Tj
+T*
+(})Tj
+0 -2.2 TD
+(func openDB\(dsn string\) \(*sql.DB, error\) {)Tj
+0 -1.1 TD
+(    db, err := sql.Open\("postgres", dsn\))Tj
+T*
+(    if err != nil {)Tj
+T*
+(        return nil, err)Tj
+T*
+(    })Tj
+T*
+(    if err = db.Ping\(\); err != nil {)Tj
+T*
+(        return nil, err)Tj
+T*
+(    })Tj
+T*
+(    return db, nil)Tj
+T*
+(})Tj
+0 -2.2 TD
+(func main\(\) {)Tj
+T*
+(    cfg := new\(Config\))Tj
+0 -1.1 TD
+(    flag.StringVar\(&cfg.Addr, "addr", ":4000", "HTTP network address"\))Tj
+0 -2.2 TD
+(    dsn := flag.String\("dsn", )Tj
+0 -1.1 TD
+("postgres://postgres:postgres@localhost/snippetbox?sslmode=disable", "Postgres data )Tj
+T*
+(source name"\))Tj
+0 -2.2 TD
+(    flag.Parse\(\))Tj
+T*
+(    infoLog := log.New\(os.Stdout, "INFO\\t", log.Ldate|log.Ltime\))Tj
+0 -1.1 TD
+(    errorLog := log.New\(os.Stderr, "ERROR\\t", log.Ldate|log.Ltime|log.Lshortfile\))Tj
+0 -2.2 TD
+(    db, err := openDB\(*dsn\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        errorLog.Fatal\(err\))Tj
+T*
+(    })Tj
+T*
+(    defer db.Close\(\))Tj
+0 -2.2 TD
+(    templateCache, err := newTemplateCache\("./ui/html/"\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        errorLog.Fatal\(err\))Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    app := &application{)Tj
+ET
+endstream
+endobj
+30 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+32 0 obj
+<<
+/Length 1255
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(11:48:23)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(2)Tj
+/TT6 1 Tf
+14 0 0 14 247.1499 786.5 Tm
+0 g
+(cmd/web/main.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(        errorLog:      errorLog,)Tj
+0 -1.1 TD
+(        infoLog:       infoLog,)Tj
+T*
+(        snippets:      &postgres.SnippetModel{DB: db},)Tj
+T*
+(        templateCache: templateCache,)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    fmt.Println\("**** templateCache: ", app.templateCache\))Tj
+T*
+(    srv := &http.Server{)Tj
+0 -1.1 TD
+(        Addr:     cfg.Addr,)Tj
+T*
+(        ErrorLog: errorLog,)Tj
+T*
+(        Handler:  app.routes\(\),)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    infoLog.Printf\("http://localhost%v/original", cfg.Addr\))Tj
+0 -1.1 TD
+(    infoLog.Printf\("http://localhost%v", cfg.Addr\))Tj
+T*
+(    infoLog.Printf\("curl íhttp://localhost%v/api/v1/testí", cfg.Addr\))Tj
+T*
+(    infoLog.Printf\("curl íhttp://localhost%v/api/v1/snippet?id=3í", cfg.Addr\))Tj
+0 -2.2 TD
+(    err = srv.ListenAndServe\(\))Tj
+0 -1.1 TD
+(    errorLog.Fatal\(err\))Tj
+0 -2.2 TD
+(})Tj
+T*
+(// go run ./cmd/web >> ./logs/info.log 2>> ./logs/error.log)Tj
+ET
+endstream
+endobj
+33 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+35 0 obj
+<<
+/Length 1199
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(09:04:20)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(1)Tj
+/TT6 1 Tf
+14 0 0 14 244.0396 786.5 Tm
+0 g
+(cmd/web/routes.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(package main)Tj
+0 -2.2 TD
+(import \()Tj
+0 -1.1 TD
+(    "net/http")Tj
+T*
+(\))Tj
+0 -2.2 TD
+(func \(app *application\) routes\(\) *http.ServeMux {)Tj
+T*
+(    mux := http.NewServeMux\(\))Tj
+0 -1.1 TD
+(    mux.HandleFunc\("/", app.home\))Tj
+T*
+(    mux.HandleFunc\("/original", app.homeOriginal\))Tj
+T*
+(    mux.HandleFunc\("/snippet", app.showSnippet\))Tj
+T*
+(    mux.HandleFunc\("/snippet/create", app.createSnippet\))Tj
+0 -2.2 TD
+(    fileServer := http.FileServer\(neuteredFileSystem{http.Dir\("./ui/static/"\)}\))Tj
+0 -1.1 TD
+(    mux.Handle\("/static/", http.StripPrefix\("/static", fileServer\)\))Tj
+0 -2.2 TD
+(    // APIs)Tj
+0 -1.1 TD
+(    mux.HandleFunc\("/api/v1/snippet", app.apiShowSnippet\))Tj
+T*
+(    mux.HandleFunc\("/api/v1/test", app.apiTest\))Tj
+T*
+(    mux.HandleFunc\("/api/v1/home", app.apiHome\))Tj
+0 -2.2 TD
+(    return mux)Tj
+0 -1.1 TD
+(})Tj
+ET
+endstream
+endobj
+36 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+38 0 obj
+<<
+/Length 2369
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/16/20)Tj
+-0.0552 -1.0667 TD
+(08:48:31)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(1)Tj
+/TT6 1 Tf
+14 0 0 14 234.3223 786.5 Tm
+0 g
+(cmd/web/templates.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(package main)Tj
+0 -2.2 TD
+(import \()Tj
+0 -1.1 TD
+(    "html/template")Tj
+T*
+(    "path/filepath")Tj
+T*
+(    "time")Tj
+0 -2.2 TD
+(    "github.com/gbih/snippetbox/pkg/models")Tj
+0 -1.1 TD
+(\))Tj
+0 -2.2 TD
+(type templateData struct {)Tj
+0 -1.1 TD
+(    CurrentYear int)Tj
+T*
+(    Snippet     *models.Snippet)Tj
+T*
+(    Snippets    []*models.Snippet)Tj
+T*
+(})Tj
+0 -2.2 TD
+(func humanDate\(t time.Time\) string {)Tj
+0 -1.1 TD
+(    return t.Format\("02 Jan 2006 at 15:04"\))Tj
+T*
+(})Tj
+0 -2.2 TD
+(var functions = template.FuncMap{)Tj
+0 -1.1 TD
+(    "humanDate": humanDate,)Tj
+T*
+(})Tj
+0 -2.2 TD
+(func newTemplateCache\(dir string\) \(map[string]*template.Template, error\) {)Tj
+T*
+(    cache := map[string]*template.Template{})Tj
+T*
+(    pages, err := filepath.Glob\(filepath.Join\(dir, "*.page.html"\)\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        return nil, err)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    for _, page := range pages {)Tj
+0 -1.1 TD
+(        name := filepath.Base\(page\))Tj
+0 -2.2 TD
+(        // The template.FuncMap must be registered with the template set before you)Tj
+0 -1.1 TD
+(        // call the ParseFiles\(\) method. This means we have to use template.New\(\) to)Tj
+T*
+(        // create an empty template set, use the Funcs\(\) method to register the)Tj
+T*
+(        // template.FuncMap, and then parse the file as normal.)Tj
+T*
+(        //ts, err := template.ParseFiles\(page\))Tj
+T*
+(        ts, err := template.New\(name\).Funcs\(functions\).ParseFiles\(page\))Tj
+T*
+(        if err != nil {)Tj
+T*
+(            return nil, err)Tj
+T*
+(        })Tj
+0 -2.2 TD
+(        ts, err = ts.ParseGlob\(filepath.Join\(dir, "*.layout.html"\)\))Tj
+0 -1.1 TD
+(        if err != nil {)Tj
+T*
+(            return nil, err)Tj
+T*
+(        })Tj
+0 -2.2 TD
+(        ts, err = ts.ParseGlob\(filepath.Join\(dir, "*.partial.html"\)\))Tj
+0 -1.1 TD
+(        if err != nil {)Tj
+T*
+(            return nil, err)Tj
+T*
+(        })Tj
+0 -2.2 TD
+(        cache[name] = ts)Tj
+0 -1.1 TD
+(    })Tj
+0 -2.2 TD
+(    return cache, nil)Tj
+0 -1.1 TD
+(})Tj
+ET
+endstream
+endobj
+39 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+43 0 obj
+<<
+/Length 697
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/15/20)Tj
+-0.0552 -1.0667 TD
+(10:57:12)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(1)Tj
+/TT6 1 Tf
+14 0 0 14 233.9189 786.5 Tm
+0 g
+(pkg/models/models.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(package models)Tj
+0 -2.2 TD
+(import \()Tj
+0 -1.1 TD
+(    "errors")Tj
+T*
+(    "time")Tj
+T*
+(\))Tj
+0 -2.2 TD
+(var ErrNoRecord = errors.New\("models: no matching record found"\))Tj
+T*
+(type Snippet struct {)Tj
+0 -1.1 TD
+(    ID      int)Tj
+T*
+(    Title   string)Tj
+T*
+(    Content string)Tj
+T*
+(    Created time.Time)Tj
+T*
+(    Expires time.Time)Tj
+T*
+(})Tj
+ET
+endstream
+endobj
+44 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+46 0 obj
+<<
+/Length 2354
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/15/20)Tj
+-0.0552 -1.0667 TD
+(21:51:24)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(1)Tj
+/TT6 1 Tf
+14 0 0 14 205.9189 786.5 Tm
+0 g
+(pkg/models/postgres/snippets.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(package postgres)Tj
+0 -2.2 TD
+(import \()Tj
+0 -1.1 TD
+(    "database/sql")Tj
+T*
+(    "errors")Tj
+0 -2.2 TD
+(    "github.com/gbih/snippetbox/pkg/models")Tj
+0 -1.1 TD
+(\))Tj
+0 -2.2 TD
+(type SnippetModel struct {)Tj
+0 -1.1 TD
+(    DB *sql.DB)Tj
+T*
+(})Tj
+0 -2.2 TD
+(func \(m *SnippetModel\) Insert\(title, content, expires string\) \(int, error\) {)Tj
+T*
+(    var id int)Tj
+T*
+(    stmt := ëINSERT INTO snippets)Tj
+0 -1.1 TD
+(    \(title, content, created, expires\))Tj
+T*
+(    VALUES)Tj
+T*
+(    \($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL í1 DAYí * $3\))Tj
+T*
+(    RETURNING idë)Tj
+0 -2.2 TD
+(    err := m.DB.QueryRow\(stmt, title, content, expires\).Scan\(&id\))Tj
+T*
+(    if err != nil {)Tj
+0 -1.1 TD
+(        return 0, err)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    return int\(id\), nil)Tj
+T*
+(})Tj
+T*
+(func \(m *SnippetModel\) Get\(id int\) \(*models.Snippet, error\) {)Tj
+T*
+(    stmt := ëSELECT id, title, content, created, expires FROM snippets)Tj
+0 -1.1 TD
+(    WHERE expires > CURRENT_TIMESTAMP AND id = $1ë)Tj
+0 -2.2 TD
+(    row := m.DB.QueryRow\(stmt, id\))Tj
+0 -1.1 TD
+(    s := &models.Snippet{})Tj
+0 -2.2 TD
+(    err := row.Scan\(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        if errors.Is\(err, sql.ErrNoRows\) {)Tj
+T*
+(            return nil, models.ErrNoRecord)Tj
+T*
+(        } else {)Tj
+T*
+(            return nil, err)Tj
+T*
+(        })Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    return s, nil)Tj
+0 -1.1 TD
+(})Tj
+0 -2.2 TD
+(func \(m *SnippetModel\) Latest\(\) \([]*models.Snippet, error\) {)Tj
+0 -1.1 TD
+(    stmt := ëSELECT id, title, content, created, expires FROM snippets)Tj
+T*
+(    WHERE expires > CURRENT_TIMESTAMP ORDER BY created DESC LIMIT 3ë)Tj
+0 -2.2 TD
+(    rows, err := m.DB.Query\(stmt\))Tj
+0 -1.1 TD
+(    if err != nil {)Tj
+T*
+(        return nil, err)Tj
+T*
+(    })Tj
+T*
+(    defer rows.Close\(\))Tj
+0 -2.2 TD
+(    snippets := []*models.Snippet{})Tj
+T*
+(    for rows.Next\(\) {)Tj
+0 -1.1 TD
+(        s := &models.Snippet{})Tj
+ET
+endstream
+endobj
+47 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+49 0 obj
+<<
+/Length 760
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(07/15/20)Tj
+-0.0552 -1.0667 TD
+(21:51:24)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(2)Tj
+/TT6 1 Tf
+14 0 0 14 205.9189 786.5 Tm
+0 g
+(pkg/models/postgres/snippets.go)Tj
+/TT8 1 Tf
+10 0 0 10 29 769 Tm
+(        err := rows.Scan\(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires\))Tj
+0 -1.1 TD
+(        if err != nil {)Tj
+T*
+(            return nil, err)Tj
+T*
+(        })Tj
+0 -2.2 TD
+(        snippets = append\(snippets, s\))Tj
+0 -1.1 TD
+(    })Tj
+0 -2.2 TD
+(    if err = rows.Err\(\); err != nil {)Tj
+0 -1.1 TD
+(        return nil, err)Tj
+T*
+(    })Tj
+0 -2.2 TD
+(    return snippets, nil)Tj
+0 -1.1 TD
+(})Tj
+ET
+endstream
+endobj
+50 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+>>
+/ExtGState <<
+/GS1 8 0 R
+>>
+>>
+endobj
+8 0 obj
+<<
+/Type /ExtGState
+/SA false
+/SM 0.02
+/OP false
+/op false
+/OPM 1
+/BG2 /Default
+/UCR2 /Default
+/HT /Default
+/TR2 /Default
+>>
+endobj
+51 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 750
+/CapHeight 676
+/Descent -250
+/Flags 262178
+/FontBBox [-168 -218 1000 935]
+/FontName /Times-Bold
+/ItalicAngle 0
+/StemV 133
+/XHeight 461
+/StemH 139
+>>
+endobj
+52 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 770
+/CapHeight 718
+/Descent -229
+/Flags 262176
+/FontBBox [-170 -228 1003 962]
+/FontName /Helvetica-Bold
+/ItalicAngle 0
+/StemV 133
+/XHeight 532
+/StemH 140
+>>
+endobj
+53 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 750
+/CapHeight 662
+/Descent -250
+/Flags 34
+/FontBBox [-168 -218 1000 898]
+/FontName /Times-Roman
+/ItalicAngle 0
+/StemV 84
+/XHeight 450
+/StemH 84
+>>
+endobj
+54 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 753
+/CapHeight 562
+/Descent -246
+/Flags 35
+/FontBBox [-28 -250 628 805]
+/FontName /Courier
+/ItalicAngle 0
+/StemV 51
+/XHeight 426
+/StemH 51
+>>
+endobj
+4 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 47
+/LastChar 58
+/Widths [278 500 500 500 500 500 500 500 500 500 500 333 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Times-Bold
+/FontDescriptor 51 0 R
+>>
+endobj
+5 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 49
+/LastChar 53
+/Widths [556 556 556 556 556 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Helvetica-Bold
+/FontDescriptor 52 0 R
+>>
+endobj
+6 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 46
+/LastChar 119
+/Widths [250 278 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 444 500 444 500 444 0 500 500 278 0 500 278 778 
+500 500 500 0 333 389 278 500 0 722 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Times-Roman
+/FontDescriptor 53 0 R
+>>
+endobj
+7 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 32
+/LastChar 232
+/Widths [600 600 600 0 600 600 600 0 600 600 600 600 600 600 600 600 
+600 600 600 600 600 600 600 600 600 0 600 600 600 600 600 600 
+600 600 600 600 600 600 600 600 600 600 600 600 600 600 600 600 
+600 600 600 600 600 600 600 600 0 600 0 600 600 600 0 600 
+0 600 600 600 600 600 600 600 600 600 600 600 600 600 600 600 
+600 600 600 600 600 600 600 600 600 600 600 600 600 600 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 600 600 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 600 0 0 600 0 0 0 0 0 0 600 0 0 600 
+0 0 600 0 0 0 600 0 0 600 0 0 0 0 600 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 600 0 0 600 600 0 600 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Courier
+/FontDescriptor 54 0 R
+>>
+endobj
+1 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 3 0 R
+/Contents 2 0 R
+>>
+endobj
+10 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 12 0 R
+/Contents 11 0 R
+>>
+endobj
+13 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 15 0 R
+/Contents 14 0 R
+>>
+endobj
+16 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 18 0 R
+/Contents 17 0 R
+>>
+endobj
+19 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 21 0 R
+/Contents 20 0 R
+>>
+endobj
+22 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 24 0 R
+/Contents 23 0 R
+>>
+endobj
+25 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 27 0 R
+/Contents 26 0 R
+>>
+endobj
+28 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 30 0 R
+/Contents 29 0 R
+>>
+endobj
+31 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 33 0 R
+/Contents 32 0 R
+>>
+endobj
+34 0 obj
+<<
+/Type /Page
+/Parent 9 0 R
+/Resources 36 0 R
+/Contents 35 0 R
+>>
+endobj
+37 0 obj
+<<
+/Type /Page
+/Parent 41 0 R
+/Resources 39 0 R
+/Contents 38 0 R
+>>
+endobj
+42 0 obj
+<<
+/Type /Page
+/Parent 41 0 R
+/Resources 44 0 R
+/Contents 43 0 R
+>>
+endobj
+45 0 obj
+<<
+/Type /Page
+/Parent 41 0 R
+/Resources 47 0 R
+/Contents 46 0 R
+>>
+endobj
+48 0 obj
+<<
+/Type /Page
+/Parent 41 0 R
+/Resources 50 0 R
+/Contents 49 0 R
+>>
+endobj
+55 0 obj
+<<
+/S /D
+>>
+endobj
+56 0 obj
+<<
+/Nums [0 55 0 R ]
+>>
+endobj
+9 0 obj
+<<
+/Type /Pages
+/Kids [1 0 R 10 0 R 13 0 R 16 0 R 19 0 R 22 0 R 25 0 R 28 0 R 31 0 R 34 0 R]
+/Count 10
+/Parent 40 0 R
+>>
+endobj
+41 0 obj
+<<
+/Type /Pages
+/Kids [37 0 R 42 0 R 45 0 R 48 0 R]
+/Count 4
+/Parent 40 0 R
+>>
+endobj
+40 0 obj
+<<
+/Type /Pages
+/Kids [9 0 R 41 0 R ]
+/Count 14
+/MediaBox [0 0 595 842]
+>>
+endobj
+57 0 obj
+<<
+/CreationDate (D:20200716132657+09'00')
+/ModDate (D:20200716132657+09'00')
+/Producer (Apple pstopdf)
+>>
+endobj
+58 0 obj
+<<
+/Type /Catalog
+/Pages 40 0 R
+/PageLabels 56 0 R
+>>
+endobj
+xref
+0 59
+0000000000 65535 f 
+0000031797 00000 n 
+0000000016 00000 n 
+0000002422 00000 n 
+0000030267 00000 n 
+0000030477 00000 n 
+0000030663 00000 n 
+0000031021 00000 n 
+0000029331 00000 n 
+0000033028 00000 n 
+0000031877 00000 n 
+0000002550 00000 n 
+0000005599 00000 n 
+0000031960 00000 n 
+0000005728 00000 n 
+0000008675 00000 n 
+0000032043 00000 n 
+0000008804 00000 n 
+0000011337 00000 n 
+0000032126 00000 n 
+0000011466 00000 n 
+0000013019 00000 n 
+0000032209 00000 n 
+0000013148 00000 n 
+0000016428 00000 n 
+0000032292 00000 n 
+0000016557 00000 n 
+0000017029 00000 n 
+0000032375 00000 n 
+0000017158 00000 n 
+0000019478 00000 n 
+0000032458 00000 n 
+0000019607 00000 n 
+0000020915 00000 n 
+0000032541 00000 n 
+0000021044 00000 n 
+0000022296 00000 n 
+0000032624 00000 n 
+0000022425 00000 n 
+0000024847 00000 n 
+0000033259 00000 n 
+0000033164 00000 n 
+0000032708 00000 n 
+0000024976 00000 n 
+0000025725 00000 n 
+0000032792 00000 n 
+0000025854 00000 n 
+0000028261 00000 n 
+0000032876 00000 n 
+0000028390 00000 n 
+0000029202 00000 n 
+0000029471 00000 n 
+0000029673 00000 n 
+0000029879 00000 n 
+0000030076 00000 n 
+0000032960 00000 n 
+0000032988 00000 n 
+0000033350 00000 n 
+0000033473 00000 n 
+trailer
+<<
+/Size 59
+/Root 58 0 R
+/Info 57 0 R
+/ID [<19693ed5a9f81e63ef40c15a04ffa44c><19693ed5a9f81e63ef40c15a04ffa44c>]
+>>
+startxref
+33543
+%%EOF

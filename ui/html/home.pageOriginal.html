@@ -3,6 +3,10 @@
 {{define "title"}}Home{{end}}
 
 {{define "main"}}
+
+    `.` is: {{printf "%q" .}}
+    <hr>
+
     <h2>Latest Snippets</h2>
     {{if .Snippets}}
      <table>
@@ -13,11 +17,12 @@
         </tr>
         {{range .Snippets}}
         <tr>
-            <td><a href='/snippet/{{.ID}}'>{{.Title}}</a></td>
+            <td><a href='/snippet?id={{.ID}}'>{{.Title}}</a></td>
             <td>{{.Created | humanDate | printf "Created: %s"}}</td>
             <td>#{{.ID}}</td>
         </tr>
         {{end}}
+        {{/* {{len nil}} <!-- Deliberate error --> */}}
     </table>
     {{else}}
         <p>There's nothing to see here... yet!</p>

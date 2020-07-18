@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"flag"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -13,7 +12,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type neuteredFileSystem struct {
+type assetsFileSystem struct {
 	fs http.FileSystem
 }
 
@@ -46,7 +45,6 @@ func main() {
 	flag.StringVar(&cfg.Addr, "addr", ":4000", "HTTP network address")
 
 	dsn := flag.String("dsn", "postgres://postgres:postgres@localhost/snippetbox?sslmode=disable", "Postgres data source name")
-
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -70,7 +68,7 @@ func main() {
 		templateCache: templateCache,
 	}
 
-	fmt.Println("**** templateCache: ", app.templateCache)
+	//fmt.Println("**** templateCache: ", app.templateCache)
 
 	srv := &http.Server{
 		Addr:     cfg.Addr,
@@ -78,9 +76,11 @@ func main() {
 		Handler:  app.routes(),
 	}
 
-	infoLog.Printf("http://localhost%v", cfg.Addr)
-	infoLog.Printf("curl 'http://localhost%v/api/v1/test'", cfg.Addr)
-	infoLog.Printf("curl 'http://localhost%v/api/v1/snippet?id=3'", cfg.Addr)
+	// infoLog.Printf("Server started, http://localhost%v", cfg.Addr)
+	// infoLog.Printf("http://localhost%v/original", cfg.Addr)
+	// infoLog.Printf("http://localhost%v", cfg.Addr)
+	// infoLog.Printf("curl 'http://localhost%v/api/v1/test'", cfg.Addr)
+	// infoLog.Printf("curl 'http://localhost%v/api/v1/snippet?id=3'", cfg.Addr)
 
 	err = srv.ListenAndServe()
 	errorLog.Fatal(err)
