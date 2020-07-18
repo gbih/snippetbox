@@ -8,9 +8,18 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/alexedwards/scs/v2"
+	"github.com/alexedwards/scs/v2/memstore"
 	"github.com/gbih/snippetbox/pkg/models/postgres"
 	_ "github.com/lib/pq"
 )
+
+// https://phoenixframework.readme.io/v0.13.1/docs/sessions
+// Akin to Phoenix, we can use 2 styles of sessions,
+// 1. Client-side cookie-session storage. The analogy in Go here is
+// https://github.com/golangcollege/sessions
+// 2. Server-side sessions via ETS. The analogy in Go would be:
+// https://github.com/alexedwards/scs
 
 type assetsFileSystem struct {
 	fs http.FileSystem
@@ -24,6 +33,7 @@ type Config struct {
 type application struct {
 	errorLog      *log.Logger
 	infoLog       *log.Logger
+	session       *scs.SessionManager
 	snippets      *postgres.SnippetModel
 	templateCache map[string]*template.Template
 }
@@ -38,6 +48,8 @@ func openDB(dsn string) (*sql.DB, error) {
 	}
 	return db, nil
 }
+
+var session *scs.SessionManager
 
 func main() {
 
@@ -61,7 +73,11 @@ func main() {
 		errorLog.Fatal(err)
 	}
 
+	session = scs.New()
+	session.Store = memstore.New()
+
 	app := &application{
+		session:       session,
 		errorLog:      errorLog,
 		infoLog:       infoLog,
 		snippets:      &postgres.SnippetModel{DB: db},
