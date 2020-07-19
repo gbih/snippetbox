@@ -20,6 +20,9 @@ func (app *application) routes() http.Handler {
 	dynamicMiddleware := alice.New(app.session.LoadAndSave)
 
 	mux := pat.New()
+
+	// Update these routes to use the new dynamic middleware chain followed
+	// by the appropriate handler function.
 	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
 	mux.Get("/snippet/create", dynamicMiddleware.ThenFunc(app.createSnippetForm))
 	mux.Post("/snippet/create", dynamicMiddleware.ThenFunc(app.createSnippet))
@@ -31,6 +34,7 @@ func (app *application) routes() http.Handler {
 	// mux.HandleFunc("/snippet", app.showSnippet)
 	// mux.HandleFunc("/snippet/create", app.createSnippet)
 
+	// Static files do not need dynamic middleware
 	fileServer := http.FileServer(assetsFileSystem{http.Dir("./ui/static/")})
 	mux.Get("/static/", http.StripPrefix("/static", fileServer))
 
@@ -41,6 +45,14 @@ func (app *application) routes() http.Handler {
 	// mux.HandleFunc("/api/v1/snippet", app.apiShowSnippet)
 	// mux.HandleFunc("/api/v1/test", app.apiTest)
 	// mux.HandleFunc("/api/v1/home", app.apiHome)
+
+	// SCS Session test
+	// mux.Get("/get", http.HandlerFunc(getHandler))
+	// mux.Get("/put", http.HandlerFunc(putHandler))
+
+	// May need to wrap with session.LoadAndSave()
+	mux.Get("/get", dynamicMiddleware.ThenFunc(getHandler))
+	mux.Get("/put", dynamicMiddleware.ThenFunc(putHandler))
 
 	// return (app.recoverPanic(
 	// 	app.logRequest(

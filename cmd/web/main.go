@@ -7,9 +7,11 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
+	"github.com/alexedwards/scs/postgresstore"
 	"github.com/alexedwards/scs/v2"
-	"github.com/alexedwards/scs/v2/memstore"
+
 	"github.com/gbih/snippetbox/pkg/models/postgres"
 	_ "github.com/lib/pq"
 )
@@ -73,9 +75,29 @@ func main() {
 		errorLog.Fatal(err)
 	}
 
+	// Initialize a new session manager and configure the session lifetime.
+	// https://github.com/alexedwards/scs
 	session = scs.New()
-	session.Store = memstore.New()
 
+	// Use memstore as the session store
+	// session.Store = memstore.New()
+
+	// Use PostgreSQL as the session store
+	session.Store = postgresstore.New(db)
+
+	// Misc session configuration
+	session.Lifetime = 3 * time.Hour
+	session.IdleTimeout = 20 * time.Minute
+
+	session.Cookie.Name = "session_id"
+	session.Cookie.Domain = "localhost"
+	session.Cookie.HttpOnly = true
+	session.Cookie.Path = "/"
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteStrictMode
+	session.Cookie.Secure = false // need HTTPS to be enabled
+
+	// Add the session manager to our application dependencies.
 	app := &application{
 		session:       session,
 		errorLog:      errorLog,

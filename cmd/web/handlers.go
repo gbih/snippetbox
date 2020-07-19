@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"io"
 	"net/http"
 	"path/filepath"
 	"strconv"
@@ -126,6 +127,19 @@ func (app *application) homeOriginal(w http.ResponseWriter, r *http.Request) {
 
 //----------
 
+func putHandler(w http.ResponseWriter, r *http.Request) {
+	session.Put(r.Context(), "message", "Hello ジョージ from a session!")
+	io.WriteString(w, "Added to session, ['message': 'Hello ジョージ from a session!'] ")
+}
+
+func getHandler(w http.ResponseWriter, r *http.Request) {
+	msg := session.GetString(r.Context(), "message")
+	io.WriteString(w, "Retrieved from session:\n")
+	io.WriteString(w, msg)
+}
+
+//----------
+
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 	s, err := app.snippets.Latest()
@@ -240,7 +254,6 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Manual template parsing and execution code refactored out
-
 	app.render(w, r, "show.page.html", &templateData{
 		Snippet: s,
 	})
